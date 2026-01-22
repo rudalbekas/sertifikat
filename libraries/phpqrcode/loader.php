@@ -9,31 +9,32 @@
  * 
  * Alternative: Use composer
  * composer require phpqrcode/phpqrcode
+ * 
+ * SECURITY NOTE: The fallback implementation below is for development only.
+ * In production, always use a proper QR code library.
  */
 
-// Simple QR Code generator using Google Charts API (for development)
+// Simple QR Code generator using local generation (for development)
 class SimpleQRCode {
     public static function png($text, $outfile, $level = 'L', $size = 3, $margin = 4) {
         // For production, use proper QR library
-        // This is a simple fallback using Google Charts API
+        // This is a simple fallback that creates a placeholder
         
-        $size = $size * 50; // Adjust size
-        $url = "https://chart.googleapis.com/chart?chs={$size}x{$size}&cht=qr&chl=" . urlencode($text) . "&choe=UTF-8";
-        
-        // Try to download QR code image
-        $imageData = @file_get_contents($url);
-        
-        if ($imageData) {
-            file_put_contents($outfile, $imageData);
-            return true;
-        }
-        
-        // Fallback: Create a simple placeholder image
-        $img = imagecreate(200, 200);
+        // Create a simple placeholder image
+        $imgSize = 200;
+        $img = imagecreate($imgSize, $imgSize);
         $bgColor = imagecolorallocate($img, 255, 255, 255);
         $textColor = imagecolorallocate($img, 0, 0, 0);
-        imagestring($img, 3, 50, 90, "QR Code", $textColor);
-        imagestring($img, 2, 50, 110, substr($text, 0, 15), $textColor);
+        
+        // Draw border
+        imagerectangle($img, 10, 10, $imgSize-10, $imgSize-10, $textColor);
+        
+        // Add text
+        imagestring($img, 3, 40, 80, "QR Code", $textColor);
+        imagestring($img, 2, 30, 100, "Production: Use", $textColor);
+        imagestring($img, 2, 30, 115, "proper library", $textColor);
+        
+        // Save
         imagepng($img, $outfile);
         imagedestroy($img);
         

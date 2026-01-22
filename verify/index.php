@@ -25,11 +25,15 @@ if ($failedAttempts >= CAPTCHA_THRESHOLD) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$error) {
-    $input = cleanInput($_POST['certificate_number'] ?? $_POST['token'] ?? '');
-    
-    if (empty($input)) {
-        $error = 'Please enter a certificate number or scan QR code';
+    // Verify CSRF token (even for public pages)
+    if (!isset($_POST[CSRF_TOKEN_NAME]) || !verifyCSRFToken($_POST[CSRF_TOKEN_NAME])) {
+        $error = 'Invalid security token. Please refresh the page and try again.';
     } else {
+        $input = cleanInput($_POST['certificate_number'] ?? $_POST['token'] ?? '');
+        
+        if (empty($input)) {
+            $error = 'Please enter a certificate number or scan QR code';
+        } else {
         // Check if it's a verification token or certificate number
         $stmt = null;
         
@@ -59,6 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$error) {
         } else {
             $error = 'Certificate not found or invalid token';
             logVerificationAttempt($clientIP, $input, false);
+            }
         }
     }
 }
@@ -155,6 +160,8 @@ if (!$certificateData && isset($_GET['token']) && !$error) {
             <?php if (!$certificateData): ?>
                 <!-- Verification Form -->
                 <form method="POST" action="">
+                    <?php echo csrfField(); ?>
+                    
                     <div class="mb-3">
                         <label for="certificate_number" class="form-label">Certificate Number or Token</label>
                         <input type="text" class="form-control form-control-lg" id="certificate_number" 
@@ -163,11 +170,14 @@ if (!$certificateData && isset($_GET['token']) && !$error) {
                     
                     <?php if ($showCaptcha): ?>
                         <div class="alert alert-warning">
-                            <small>⚠️ Multiple failed attempts detected. Please verify you're human.</small>
+                            <small>⚠️ Multiple failed attempts detected. Please wait before trying again.</small>
+                            <br>
+                            <small><strong>Note:</strong> Full CAPTCHA integration requires external service (e.g., Google reCAPTCHA). 
+                            For now, rate limiting is enforced.</small>
                         </div>
                     <?php endif; ?>
                     
-                    <button type="submit" class="btn btn-primary btn-verify">
+                    <button type="submit" class="btn btn-primary btn-verify" <?php echo $showCaptcha ? 'disabled' : ''; ?>>
                         <i class="bi bi-search"></i> Verify Certificate
                     </button>
                 </form>
