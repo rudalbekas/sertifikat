@@ -1,6 +1,11 @@
 # Environment configuration
 .env
-config/config.php
+# Note: config.php is now tracked with default settings for easy XAMPP deployment
+# Make sure to update sensitive values after deployment
+
+# Logs directory but keep structure
+logs/*
+!logs/.gitkeep
 
 # Uploaded files
 uploads/csv/*
