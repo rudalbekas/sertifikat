@@ -96,10 +96,9 @@ if (!$certificateData && isset($_GET['token']) && !$error) {
     <title>Verify Certificate - <?php echo APP_NAME; ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <link href="https://fonts.googleapis.com/css2?family=-apple-system,BlinkMacSystemFont,Segoe+UI,Noto+Sans,Helvetica,Arial,sans-serif&display=swap" rel="stylesheet">
     <style>
         * {
-            font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
         }
         
         body {
@@ -547,8 +546,24 @@ if (!$certificateData && isset($_GET['token']) && !$error) {
                 </div>
                 
                 <div class="btn-group-actions">
-                    <?php if (!empty($certificateData['pdf_path']) && file_exists(__DIR__ . '/../' . $certificateData['pdf_path'])): ?>
-                    <a href="<?php echo APP_URL; ?>/<?php echo sanitize($certificateData['pdf_path']); ?>" 
+                    <?php 
+                    // Security: Validate PDF path to prevent directory traversal
+                    $pdfPath = $certificateData['pdf_path'] ?? '';
+                    $showDownload = false;
+                    if (!empty($pdfPath)) {
+                        // Remove any directory traversal attempts
+                        $pdfPath = str_replace(['../', '..\\'], '', $pdfPath);
+                        // Ensure path starts with expected directory
+                        if (strpos($pdfPath, 'generated/certificates/') === 0) {
+                            $fullPath = __DIR__ . '/../' . $pdfPath;
+                            if (file_exists($fullPath)) {
+                                $showDownload = true;
+                            }
+                        }
+                    }
+                    if ($showDownload): 
+                    ?>
+                    <a href="<?php echo APP_URL; ?>/<?php echo htmlspecialchars($pdfPath, ENT_QUOTES, 'UTF-8'); ?>" 
                        class="btn-secondary-github" download>
                         <i class="bi bi-download"></i> Download Certificate (PDF)
                     </a>
