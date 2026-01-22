@@ -48,12 +48,24 @@ Ensure these directories exist and are writable:
 
 ### 5. Access the Application
 1. Start Apache and MySQL in XAMPP Control Panel
-2. Open browser and go to: http://localhost/sertifikat/
-3. Admin login: http://localhost/sertifikat/admin/login.php
+2. **First, run the installation check**: http://localhost/sertifikat/check_installation.php
+   - This will verify all files and directories are in place
+   - Fix any issues reported before proceeding
+3. Open browser and go to: http://localhost/sertifikat/
+4. Admin login: http://localhost/sertifikat/admin/login.php
    - Username: `admin`
    - Password: `admin123`
 
 ## Troubleshooting
+
+### Quick Check
+Run the installation checker first: http://localhost/sertifikat/check_installation.php
+
+This will verify:
+- PHP version and extensions
+- Config file exists and is valid
+- Database connection works
+- All required directories exist and are writable
 
 ### Internal Server Error
 If you get "Internal Server Error":
