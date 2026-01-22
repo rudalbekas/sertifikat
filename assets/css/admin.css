@@ -1,0 +1,54 @@
+/* Admin Panel Styles */
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    padding: 0;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+}
+
+.sidebar-sticky {
+    position: sticky;
+    top: 0;
+    height: calc(100vh - 48px);
+    padding-top: 0.5rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.sidebar .nav-link {
+    font-weight: 500;
+    color: rgba(255,255,255,0.9);
+}
+
+.sidebar .nav-link:hover {
+    color: white;
+    background-color: rgba(255,255,255,0.2);
+}
+
+.sidebar .nav-link.active {
+    color: white;
+    background-color: rgba(255,255,255,0.3);
+}
+
+.stat-card {
+    transition: transform 0.3s;
+    cursor: default;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.table-actions .btn {
+    margin-right: 5px;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        position: relative;
+    }
+}
