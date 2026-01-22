@@ -7,6 +7,7 @@ uploads/csv/*
 !uploads/csv/.gitkeep
 uploads/templates/*
 !uploads/templates/.gitkeep
+!uploads/templates/README.md
 
 # Generated files
 generated/certificates/*
