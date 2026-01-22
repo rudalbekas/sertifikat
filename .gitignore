@@ -1,0 +1,41 @@
+# Environment configuration
+.env
+config/config.php
+
+# Uploaded files
+uploads/csv/*
+!uploads/csv/.gitkeep
+uploads/templates/*
+!uploads/templates/.gitkeep
+
+# Generated files
+generated/certificates/*
+!generated/certificates/.gitkeep
+generated/qrcodes/*
+!generated/qrcodes/.gitkeep
+
+# Dependencies (if using Composer)
+vendor/
+composer.lock
+
+# System files
+.DS_Store
+Thumbs.db
+*.log
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Backup files
+*.bak
+*.backup
+*.sql.gz
