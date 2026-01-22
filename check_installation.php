@@ -83,8 +83,9 @@ header('Content-Type: text/html; charset=utf-8');
                 $dsn = "mysql:host=" . DB_HOST . ";charset=utf8mb4";
                 $pdo = new PDO($dsn, DB_USER, DB_PASS, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
                 
-                // Check if database exists
-                $stmt = $pdo->query("SHOW DATABASES LIKE '" . DB_NAME . "'");
+                // Check if database exists (using prepared statement to prevent SQL injection)
+                $stmt = $pdo->prepare("SHOW DATABASES LIKE ?");
+                $stmt->execute([DB_NAME]);
                 $dbExists = $stmt->rowCount() > 0;
                 
                 $checks[] = [
@@ -192,8 +193,8 @@ header('Content-Type: text/html; charset=utf-8');
                 <p>Please fix the issues above before using the application.</p>
                 <p class="mb-0"><strong>Next Steps:</strong></p>
                 <ul>
-                    <li>If config.php is missing, copy config/.env.example to config/config.php</li>
-                    <li>Update database credentials in config/config.php</li>
+                    <li>If config.php is missing, it should already be in the repository at config/config.php</li>
+                    <li>Update database credentials in config/config.php (default: root with empty password for XAMPP)</li>
                     <li>Create the database and import database/schema.sql and database/seed.sql</li>
                     <li>Ensure all directories have proper permissions (755 for directories)</li>
                     <li>Check XAMPP_INSTALL.md for detailed instructions</li>

@@ -16,6 +16,8 @@ define('APP_URL', 'http://localhost/sertifikat');
 define('APP_ENV', 'development'); // development, production
 
 // Security Settings
+// IMPORTANT: Change SECRET_KEY before production deployment!
+// Generate a secure random key with: php -r "echo bin2hex(random_bytes(32));"
 define('SECRET_KEY', 'change-this-secret-key-in-production-' . bin2hex(random_bytes(16))); // For HMAC signatures
 define('CSRF_TOKEN_NAME', 'csrf_token');
 define('SESSION_LIFETIME', 3600); // 1 hour
