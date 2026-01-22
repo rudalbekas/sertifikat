@@ -195,7 +195,6 @@ if (!$certificateData && isset($_GET['token']) && !$error) {
         }
         
         .verify-header .icon-wrapper {
-            display: inline-block;
             width: 80px;
             height: 80px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
