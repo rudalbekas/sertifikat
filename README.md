@@ -2,6 +2,27 @@
 
 A comprehensive web-based certificate generation and verification system built with **PHP Native** and **MySQL**.
 
+## ⚡ Quick Start
+
+```bash
+# 1. Clone repository
+git clone https://github.com/rudalbekas/sertifikat.git
+cd sertifikat
+
+# 2. Run installation script
+chmod +x install.sh
+./install.sh
+
+# 3. Configure application
+nano config/config.php  # Update database credentials and settings
+
+# 4. Access application
+# Open browser: http://localhost/sertifikat/
+# Login: admin / admin123
+```
+
+**⚠️ Important:** This includes placeholder libraries. For production use, install proper FPDF and QR Code libraries (see [PRODUCTION.md](PRODUCTION.md)).
+
 ## Features
 
 ### 🏆 Certificate Generation
